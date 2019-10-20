@@ -20,7 +20,7 @@ def check_word(w):
     return w in words
 
 
-def fit_one(key):
+def fit_word_check(key):
     if not setup:
         init()
     start_time = time.time()
@@ -47,11 +47,6 @@ def fit_one(key):
     return count, res
 
 
-def set_cipher(cip):
-    global cipher
-    cipher = cip
-
-
 setup = False
 path = "E:\IIITD\Semester 1\AI\Project"
 cipher_file = "cipher.txt"
@@ -60,7 +55,7 @@ words = []
 '''
 xyz = ('X', 'Y', 'Z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
       'R', 'S', 'T', 'U', 'V', 'W')
-a, b = fit_one(xyz)
+a, b = fit_word_check(xyz)
 print(a, b)
 '''
 # the quick brown fox jumps over the lazy dog

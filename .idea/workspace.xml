@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e65c2ec8-b872-46b4-bbdb-f6366a3f3a73" name="Default Changelist" comment="" />
+    <list default="true" id="e65c2ec8-b872-46b4-bbdb-f6366a3f3a73" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mono/fitness.py" beforeDir="false" afterPath="$PROJECT_DIR$/mono/fitness.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mono/monoalpha.py" beforeDir="false" afterPath="$PROJECT_DIR$/mono/monoalpha.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,8 +20,13 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1RnVVnqcCC4CQozVv0E9SFcDKwl" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -105,15 +115,29 @@
       <workItem from="1570361352416" duration="594000" />
       <workItem from="1570432101974" duration="1289000" />
       <workItem from="1571338568364" duration="29781000" />
-      <workItem from="1571484301759" duration="4873000" />
+      <workItem from="1571484301759" duration="15405000" />
+      <workItem from="1571573163562" duration="5980000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/AI_Project$monoalpha.coverage" NAME="monoalpha Coverage Results" MODIFIED="1571504621393" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mono" />
+    <SUITE FILE_PATH="coverage/AI_Project$monoalpha.coverage" NAME="monoalpha Coverage Results" MODIFIED="1571582854110" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mono" />
     <SUITE FILE_PATH="coverage/AI_Project$fitness.coverage" NAME="fitness Coverage Results" MODIFIED="1571394913840" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/mono" />
   </component>
 </project>
