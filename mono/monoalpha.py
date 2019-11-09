@@ -57,7 +57,7 @@ def hillclimb():
                 flag = False
                 keystore.keyspace.append((tuple(tmp), wc, wl))
                 comp_lim = wc
-                print("climbed", end="")
+                # aprint("climbed", end="")
                 keystore.keyspace.remove(tup)
 
 
@@ -124,3 +124,56 @@ keystore = Keystore()
 keystore.add_pop(initialize(pop_limit))
 keystore.print_pop()
 genetic()
+
+'''
+
+	Approach 6:
+	
+		Hillclimbing applied.
+		
+		Fitness Function: Number of english words from a dictionary
+		
+		Crossover: Select two parents, two random positions from start and end, apply all starting genes to child. Apply ending genes that are not in starting, to end of child.
+		Populate the middle with rest of the alphabet keeping consistency.
+		
+		parent1 = keystore.keyspace[random.randint(0, top_select - 1)][0]
+                parent2 = keystore.keyspace[random.randint(0, top_select - 1)][0]
+
+                ranpos1 = random.randint(2, 10)
+                ranpos2 = random.randint(18, 24)
+                undone = []
+                child = ['~']*26
+                for j in range(0, ranpos1+1):
+                    child[j] = parent1[j]
+                for j in range(0, 26):
+                    if not (chr(j+65) in child):
+                        undone.append(chr(j+65))
+                for j in range(ranpos2, 26):
+                    if parent2[j] in undone:
+                        child[j] = parent2[j]
+                        undone.remove(parent2[j])
+                z = 0
+                random.shuffle(undone)
+                for j in range(ranpos1, 26):
+                    if child[j] == '~':
+                        child[j] = undone[z]
+                        z += 1
+             	
+		Problem: Stuck in local optima. But keys are consistent till the end. No more fatal issues.
+		
+	
+		
+	Approach 7: 
+
+
+		Hillclimbing applied.
+		
+		Fitness Function: Frequency distribution of letters in english against cracked sample.
+		
+		Crossover: Same as approach 6
+		
+		Problem: Convergence is slow. Stuck in local optima.
+
+
+
+'''

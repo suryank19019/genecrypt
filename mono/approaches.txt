@@ -173,7 +173,24 @@ Mono Alphabetic Substution:
 		
 		Crossover: Same as approach 6
 		
-		Problem: 
+		Problem: Convergence is slow. Stuck in local optima.
 	
 		
+	Approach 8:
 	
+		No hill climbing.
+		
+		Fitness Function: Frequency distribution of most frequent bigrams in english against the one in sample.
+		
+		    for x in bigrams:
+        bigrams[x] = 0
+    for i in range(0, len(cipher)):
+        temp = plain_text[i:i+2]
+        if temp in bigrams:
+            bigrams[temp] += 1
+    size = len(raw_bigrams)
+    for i in range(0, size):
+        bigrams[raw_bigrams[i]] *= (size-i)
+        count += bigrams[raw_bigrams[i]]
+		
+		Crossover: Same as approach 6.

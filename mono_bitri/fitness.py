@@ -1,106 +1,114 @@
-import time
 import os
 
 
-def prepare_frequencies():
-    global frequencies, expected_frequencies
-    frequency_file = os.path.join(path, "frequencies.txt")
-    my_freq_file = open(frequency_file)
-    frequencies = my_freq_file.read().split()
-    expected_frequencies = [0] * len(frequencies)
-    for i in range(0, len(frequencies)):
-        expected_frequencies[i] = (float(frequencies[i]) / 10 * len(cipher))
-    print(frequencies)
-
-
-def prepare_dictionary():
-    global words
-    file = os.path.join(path, "corncob_caps.txt")
+def prepare_n_gram(file_name, val):
+    global  n
+    n = val
+    ngram = {}
+    raw_ngram = []
+    file = os.path.join(path, file_name)
     my_file = open(file)
-    words = my_file.read().split()
+    raw_ngram = my_file.read().split()
+    word = []
+    for i in range(0, len(raw_ngram) - 1, 2):
+        ngram[raw_ngram[i]] = raw_ngram[i + 1]
+        word.append(raw_ngram[i])
+    raw_ngram = word
+    for x in raw_ngram:
+        print(x)
+    for x in ngram:
+        print(x, ngram[x])
+    return ngram, raw_ngram
 
 
 def init():
-    global setup, cipher
+    global setup, cipher, quadgrams, raw_quadgrams, bigrams, raw_bigrams
     cipher_file = os.path.join(path, "cipher.txt")
     my_cipher_file = open(cipher_file)
-    cipher = my_cipher_file.read().split()
-    # prepare_dictionary()
-    # prepare_frequencies()
+    # raw_bigram = my_cipher_file.read()
+    cipher = my_cipher_file.read()
+    # bigrams, raw_bigrams = prepare_n_gram("english_bigrams.txt", 2)
+    bigrams, raw_bigrams = prepare_n_gram("english_quadgrams.txt", 4)
     print(cipher)
     setup = True
 
 
-def check_word(w):
-    return w in words
-
-
 def convert(key):
-    res = []
+    # res = []
+    str = ""
     for w in cipher:
         for i in range(0, len(w)):
             for j in range(0, len(key)):
                 if w[i] == key[j]:
                     w = w[:i] + chr(j + 65) + w[i + 1:]
                     break
-        res.append(w)
-    return res
+        # res.append(w)
+        str += w
+    return str
 
 
-def fit_word_check(key):
+def fit_bi_check(key):
     if not setup:
         init()
     plain_text = convert(key)
-    count = 0
-    for word in plain_text:
-        if check_word(word):
-            count += 1
-    if count == len(cipher):
-        print("ANSWER FOUND")
-        print(key)
-        print(plain_text)
-        exit(0)
-    return count, plain_text
+    score = 0
+    for i in range(0, len(cipher)):
+        temp = plain_text[i:i + n]
+        if temp in raw_bigrams:
+            score += int(bigrams[temp])
+    return score, plain_text
 
-
-def fit_freq_check(key):
+'''
+def fit_quad_check(key):
     if not setup:
         init()
     plain_text = convert(key)
-    count = [0] * len(expected_frequencies)
-    for word in plain_text:
-        for char in word:
-            count[ord(char)-65] += 1
-    error = 0
-    for i in range(0, len(expected_frequencies)):
-        error += (expected_frequencies[i]-count[i]) ** 2
-    return error, plain_text
+    score = 0;
+    for i in range(0, len(cipher)):
+        temp = plain_text[i:i+2]
+        if temp in raw_quadgrams:
+'''
+
+
+def process_file():
+    file = os.path.join(path, "english_bigrams.txt")
+    bigrams_file = open(file)
+    data = bigrams_file.read().split()
+    print(data)
+    sum = 0
+    for i in range(0, len(data)):
+        if i % 2 == 1:
+            sum += int(data[i])
+    print(sum)
+    string = ""
+    for i in range(0, len(data)):
+        if i % 2 == 1:
+            string += str((int(data[i])/sum)*100)+' '
+        else:
+            string += data[i]+' '
+    print(string)
 
 
 setup = False
-cipher = []
-words = []
-frequencies = []
-expected_frequencies = []
+cipher = ""
+n = 0
+bigrams = {}
+raw_bigrams = []
+quadgrams = []
+raw_quadgrams = []
 path = "E:\IIITD\Semester 1\AI\Project"
 '''
+
+init()
+
 xyz = ('X', 'Y', 'Z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
-      'R', 'S', 'T', 'U', 'V', 'W')
-a, b = fit_word_check(xyz)
+       'R', 'S', 'T', 'U', 'V', 'W')
+a, b = fit_bi_check(xyz)
 print(a, b)
-'''
 
-
-'''
-inp = input()
-temp = 0
-for i in inp:
-    i = i.lower()
-    if ord(i)>96 and ord(i)<123:
-        temp = ord(i)-3
-        if temp < 97:
-            temp = 123 - (97 - temp) 
-            print(chr(temp).upper(), end="")
-    else:
-        print(i, end="")
+# xyz = ('H', 'B', 'W', 'Y', 'F', 'G', 'Q', 'Z', 'K', 'R', 'P', 'J', 'L', 'X', 'O', 'N', 'S', 'V', 'A', 'E', 'C', 'T', 'U'
+#        , 'I', 'D', 'M')
+a, b = fit_bi_check(xyz)
+print(a)
+print(b)
 '''

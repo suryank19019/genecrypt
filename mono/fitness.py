@@ -22,12 +22,12 @@ def prepare_dictionary():
 
 def init():
     global setup, cipher
-    cipher_file = os.path.join(path, "cipher.txt")
+    cipher_file = os.path.join(path, "cipher1.txt")
     my_cipher_file = open(cipher_file)
     cipher = my_cipher_file.read().split()
     # prepare_dictionary()
-    # prepare_frequencies()
-    print(cipher)
+    prepare_frequencies()
+    print("Cipher= ", cipher)
     setup = True
 
 
@@ -67,10 +67,11 @@ def fit_freq_check(key):
     if not setup:
         init()
     plain_text = convert(key)
+    # print("plain_text= ", plain_text)
     count = [0] * len(expected_frequencies)
     for word in plain_text:
-        for char in word:
-            count[ord(char)-65] += 1
+        for i in range(len(word)):
+            count[ord(word[i])-65] += 1
     error = 0
     for i in range(0, len(expected_frequencies)):
         error += (expected_frequencies[i]-count[i]) ** 2
