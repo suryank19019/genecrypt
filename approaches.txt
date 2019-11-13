@@ -1,0 +1,218 @@
+AI Project: Cipher breaking with GA
+
+Mono Alphabetic Substution:
+
+	[A B C D . . . Z] = [X A N P . . . O]
+	
+	find the key in the search space.
+	
+	
+	Approach 1:
+	
+		Fitness Function: Number of english words from a dictionary
+		
+		Crossover: Biased towards a parent. 1/bias genes out of one parent, rest out of others.
+		
+		'''
+                parent1 = keystore.keyspace[random.randint(0, top_select - 1)][0]
+                parent2 = keystore.keyspace[random.randint(0, top_select - 1)][0]
+                bias = random.randrange(1, biasing_value)
+                for j in range(0, 26):
+                    if j % bias != 0:
+                        child[j] = parent1[j]
+                    else:
+                        child[j] = parent2[j]
+		'''
+		
+		Random mutation. Random offspring generation.
+		
+		 '''
+                    chance = random.randrange(0, 1)
+                    if chance < mut_prob:  # mutation on low probability
+                    child[random.randint(0, 26 - 1)] = chr(random.randint(0, 25) + 65)  # change one random value
+		'''                                                                        # by random amount
+		
+		Performs poorly. Gets stuck in local optima.
+		
+	Approach 2:
+		
+		Fitness Function: Number of english words from a dictionary
+		
+		Crossover: Pivot chosen at random. Genes before that pivot are taken from one parent, genes after the pivot from second parent.
+		
+		 '''
+                ranpos = random.randint(1, 25)
+                child = list(parent1[:ranpos]+parent2[ranpos:])
+		'''
+		
+		Random mutation. Random offspring generation.
+		
+		Performs poorly. Gets stuck in local optima.
+		
+	Approach 3:
+	
+		Approach 2 with hillclimbing, i.e. every random offspring turn, swap two indices and see if fitness increases
+		
+		
+	FATAL ERROR IN CROSSOVER FOUND: Crossover doesn't necessarily keep all letters from A-Z within the genome that initialization guarantees
+	This also leads to removal of random mutation.
+	
+	Approach 4:
+	
+		Approach 2 with hillclimbing
+		
+		Crossover changed to asexual reproduction. A random pivot is chosen, parents attributes are taken till that pivot from start.
+		Rest elements are added at random gene positions, keeping the alphabet intact
+		
+		'''
+                # asexual reproduction
+                parent = keystore.keyspace[random.randrange(0, top_select)][0]
+                child = list(parent[:random.randrange(1, 25)])
+                done = [0] * 26
+                undone = []
+                for j in range(0, len(child)):
+                    done[ord(child[j])-65] = 1
+                #print(done)
+                for j in range(0, 26):
+                    if done[j] == 0:
+                        undone.append(j)
+                #print(undone)
+                #for j in range(0, len(undone)):
+                #    print(chr(undone[j]+65), end=" ")
+                #print()
+                random.shuffle(undone)
+                for j in undone:
+                    child.append(chr(j+65))
+                #print(parent)
+                #print(child, len(child))
+		'''
+	
+		Problem: Asexual reproduction is random hit and trial at best. Very slow pace of moving forward.
+	
+	Approach 5:
+	
+		Hillclimbing applied.
+	
+		Fitness Function: Number of english words from a dictionary
+		
+		Crossover: Select two parents randomly. keep the bits that are the same at same position in the child, rest generate
+					and place at random keeping the alphabet intact
+					
+				child = [0] * 26
+                parent1 = keystore.keyspace[random.randint(0, top_select - 1)][0]
+                parent2 = keystore.keyspace[random.randint(0, top_select - 1)][0]
+                done = [0] * 26
+                undone = []
+                for j in range(0, 26):
+                    if parent1[j] == parent2[j]:
+                        done[j] = 1
+                    else:
+                        undone.append(j)
+                random.shuffle(undone)
+                z = 0
+                for j in range(0, 26):
+                    if done[j] == 1:
+                        child[j] = chr(j+65)
+                    else:
+                        child[j] = chr(undone[z]+65)
+                        z += 1
+					
+		Problem: Crossover permits wrong answers to stay longer. Growth is really slow.
+		
+	
+	Approach 6:
+	
+		Hillclimbing applied.
+		
+		Fitness Function: Number of english words from a dictionary
+		
+		Crossover: Select two parents, two random positions from start and end, apply all starting genes to child. Apply ending genes that are not in starting, to end of child.
+		Populate the middle with rest of the alphabet keeping consistency.
+		
+		parent1 = keystore.keyspace[random.randint(0, top_select - 1)][0]
+                parent2 = keystore.keyspace[random.randint(0, top_select - 1)][0]
+
+                ranpos1 = random.randint(2, 10)
+                ranpos2 = random.randint(18, 24)
+                undone = []
+                child = ['~']*26
+                for j in range(0, ranpos1+1):
+                    child[j] = parent1[j]
+                for j in range(0, 26):
+                    if not (chr(j+65) in child):
+                        undone.append(chr(j+65))
+                for j in range(ranpos2, 26):
+                    if parent2[j] in undone:
+                        child[j] = parent2[j]
+                        undone.remove(parent2[j])
+                z = 0
+                random.shuffle(undone)
+                for j in range(ranpos1, 26):
+                    if child[j] == '~':
+                        child[j] = undone[z]
+                        z += 1
+                '''
+                print(parent1, ranpos1)
+                print(parent2, ranpos2)
+
+                print(undone)
+                print(child, len(child))
+                print()
+                '''
+				
+		Problem: Stuck in local optima. But keys are consistent till the end. No more fatal issues.
+		
+	
+		
+	Approach 7: 
+
+
+		Hillclimbing applied.
+		
+		Fitness Function: Frequency distribution of letters in english against cracked sample.
+		
+		Crossover: Same as approach 6
+		
+		Problem: Convergence is slow. Stuck in local optima.
+	
+		
+	Approach 8:
+	
+		No hill climbing.
+		
+		Fitness Function: Frequency distribution of most frequent bigrams in english against the one in sample.
+		
+			for x in bigrams:
+				bigrams[x] = 0
+			for i in range(0, len(cipher)):
+				temp = plain_text[i:i+2]
+				if temp in bigrams:
+					bigrams[temp] += 1
+			size = len(raw_bigrams)
+			for i in range(0, size):
+				bigrams[raw_bigrams[i]] *= (size-i)
+				count += bigrams[raw_bigrams[i]]
+		
+		Crossover: Same as approach 6.
+		
+	Approach 9:
+	
+		No hill climbing.
+		
+		Fitness Function: Quadgrams
+		
+		Crossover: Asexual reproduction. Switch between two characters.
+		
+		Result: Success. Deciphered.
+	
+	Approach 10:
+	
+		Same as approach 9
+		
+		Hillclimbing applied.
+		
+		Result: Faster convergence
+		
+		Code cleaning, converted into a class. Made a driver module to run on multiple ciphers consecutively.
+		
+	
